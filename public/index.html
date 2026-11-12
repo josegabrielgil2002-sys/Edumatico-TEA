@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDUMÁTICO TEA - Universidad Nacional Experimental Rómulo Gallegos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="animated-bg" id="app-body">
+
+    <div class="container-fluid p-0">
+        <div class="row g-0">
+            
+            <!-- MENÚ LATERAL (MÓDULOS REORGANIZADOS) -->
+            <div class="col-lg-3 sidebar-left d-none d-lg-flex">
+                <div>
+                    <div class="mb-4 text-center text-lg-start">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-warning bg-opacity-20 text-warning rounded-3 p-2 mb-2 shadow-sm">
+                            <i class="fa-solid fa-graduation-cap fa-lg"></i>
+                        </div>
+                        <h4 class="fw-bold text-white mb-1 tracking-wide">EDUMÁTICO <span class="text-warning">TEA</span></h4>
+                        <p class="small text-white-50 mb-0">Ingeniería de Sistemas • UNERG</p>
+                    </div>
+                    <hr class="border-light opacity-25">
+                    
+                    <div class="mb-3 px-1">
+                        <span class="badge bg-warning text-dark mb-2 px-2 py-1 small fw-bold" id="panel-rol-badge">SISTEMA ADAPTATIVO</span>
+                        <h6 class="text-white fw-bold" id="sidebar-titulo">Portal Institucional</h6>
+                        <p class="small text-white-50 mt-1 mb-0" id="sidebar-desc">
+                            Entorno accesible de baja densidad cognitiva.
+                        </p>
+                    </div>
+
+                    <div id="menu-plegable" class="d-none mt-4">
+                        <div class="menu-category">Módulos Principales</div>
+                        <a href="#" class="nav-link-custom active" id="link-dashboard" onclick="mostrarSeccion('dashboard'); return false;"><i class="fa-solid fa-wand-magic-sparkles text-warning"></i> Módulo 1: Estudio y Adaptación IA</a>
+                        <a href="#" class="nav-link-custom" id="link-estudiante" onclick="mostrarSeccion('estudiante'); return false;"><i class="fa-solid fa-book-reader text-success"></i> Módulo 2: Mis Actividades y Progreso</a>
+                        <a href="#" class="nav-link-custom" id="link-reportes" onclick="mostrarSeccion('reportes'); return false;"><i class="fa-solid fa-chart-line"></i> Módulo 3: Métricas Académicas</a>
+                        
+                        <div class="menu-category">Gestión y Docencia</div>
+                        <a href="#" class="nav-link-custom" id="link-planificacion" onclick="mostrarSeccion('planificacion'); return false;"><i class="fa-solid fa-file-lines text-info"></i> Módulo 4: Planificación Docente & PDF</a>
+                        <a href="#" class="nav-link-custom" id="link-usuarios" onclick="mostrarSeccion('usuarios'); return false;"><i class="fa-solid fa-users text-info"></i> Módulo 5: Directorio de Usuarios</a>
+                        <a href="#" class="nav-link-custom" id="link-ayuda" onclick="mostrarSeccion('ayuda'); return false;"><i class="fa-solid fa-circle-question text-warning"></i> Módulo 6: Guía y Ayuda</a>
+                        <a href="#" class="nav-link-custom" id="link-accesibilidad" onclick="mostrarSeccion('accesibilidad'); return false;"><i class="fa-solid fa-universal-access text-primary"></i> Módulo 7: Accesibilidad WCAG</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="p-3 rounded bg-white bg-opacity-10 text-center border border-white border-opacity-10">
+                        <span class="small d-block text-white-50">San Juan de los Morros</span>
+                        <strong class="small text-white">Guárico, Venezuela</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTENIDO PRINCIPAL -->
+            <div class="col-lg-9 main-content shadow-lg">
+                
+                <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+                    <div>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-primary bg-opacity-10 text-primary px-2 py-1 small fw-semibold">UNERG 2026</span>
+                            <span class="text-muted small">Plataforma de Ingeniería Informática</span>
+                        </div>
+                        <h3 class="fw-bold edumatico-brand-title m-0" id="header-titulo-vista">Portal de Ingreso Institucional</h3>
+                    </div>
+                    <div>
+                        <span id="user-session-info" class="badge bg-light text-secondary border p-2 fw-medium">Sesión no iniciada</span>
+                        <button id="btn-logout" class="btn btn-outline-danger btn-sm ms-2 d-none" onclick="cerrarSesion()">
+                            <i class="fa-solid fa-power-off me-1"></i> Cerrar Sesión
+                        </button>
+                    </div>
+                </div>
+
+                <!-- LOGIN -->
+                <div class="row justify-content-center align-items-center py-4" id="section-login">
+                    <div class="col-md-8 col-xl-6">
+                        <div class="card card-custom p-4 p-md-5">
+                            <div class="text-center mb-4">
+                                <div class="bg-warning bg-opacity-15 text-warning rounded-circle d-inline-flex p-3 mb-3 shadow-sm">
+                                    <i class="fa-solid fa-brain fa-2x"></i>
+                                </div>
+                                <h3 class="fw-bold edumatico-brand-title mb-1">EDUMÁTICO <span class="text-orange" style="color: #F97316;">TEA</span></h3>
+                                <p class="text-muted small">Universidad Nacional Experimental Rómulo Gallegos</p>
+                            </div>
+                            
+                            <form id="form-login">
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold text-muted">CORREO INSTITUCIONAL</label>
+                                    <input type="email" id="login-email" class="form-control" placeholder="docente@unerg.edu.ve" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label small fw-bold text-muted">CONTRASEÑA</label>
+                                    <input type="password" id="login-password" class="form-control" placeholder="••••••••" required>
+                                </div>
+                                <button type="submit" class="btn btn-custom-orange w-100 mb-3 shadow-sm">
+                                    <i class="fa-solid fa-bolt me-2"></i> Iniciar Sesión en el Entorno
+                                </button>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="recordar" checked>
+                                        <label class="form-check-label small text-muted" for="recordar">Recordar sesión</label>
+                                    </div>
+                                    <a href="#" onclick="mostrarSeccion('register'); return false;" class="small fw-semibold text-decoration-none" style="color: #F97316;">Crear una cuenta</a>
+                                </div>
+                            </form>
+                            <div id="login-alert" class="mt-3"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- REGISTRO -->
+                <div class="row justify-content-center align-items-center py-4 d-none" id="section-register">
+                    <div class="col-md-8 col-xl-6">
+                        <div class="card card-custom p-4 p-md-5">
+                            <div class="text-center mb-4">
+                                <div class="bg-primary bg-opacity-15 text-primary rounded-circle d-inline-flex p-3 mb-3 shadow-sm">
+                                    <i class="fa-solid fa-user-plus fa-2x"></i>
+                                </div>
+                                <h3 class="fw-bold text-dark mb-1">Registro de Usuario</h3>
+                                <p class="text-muted small">Únete al sistema adaptativo EDUMÁTICO TEA</p>
+                            </div>
+                            
+                            <form id="form-register">
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold text-muted">NOMBRE Y APELLIDO</label>
+                                    <input type="text" id="reg-nombre" class="form-control" placeholder="Ej: Ing. Jhoana Rodríguez" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold text-muted">CORREO INSTITUCIONAL</label>
+                                    <input type="email" id="reg-email" class="form-control" placeholder="usuario@unerg.edu.ve" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold text-muted">CONTRASEÑA</label>
+                                    <input type="password" id="reg-password" class="form-control" placeholder="••••••••" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label small fw-bold text-muted">ROL INSTITUCIONAL</label>
+                                    <select id="reg-rol" class="form-select">
+                                        <option value="2">Docente</option>
+                                        <option value="3">Estudiante</option>
+                                        <option value="4">Coordinación</option>
+                                        <option value="1">Administrador</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-custom-orange w-100 mb-3 shadow-sm">
+                                    <i class="fa-solid fa-check-circle me-2"></i> Registrar Cuenta
+                                </button>
+                                <div class="text-center">
+                                    <a href="#" onclick="mostrarSeccion('login'); return false;" class="small fw-semibold text-muted text-decoration-none">
+                                        <i class="fa-solid fa-arrow-left me-1"></i> ¿Ya tienes cuenta? Iniciar Sesión
+                                    </a>
+                                </div>
+                            </form>
+                            <div id="register-alert" class="mt-3"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MÓDULO 1: ESTUDIO DE CREACIÓN Y ADAPTACIÓN IA -->
+                <div class="d-none" id="section-dashboard">
+                    <div class="row g-4">
+                        <div class="col-xl-6">
+                            <div class="card card-custom p-4">
+                                <h5 class="fw-bold mb-2 text-dark"><i class="fa-solid fa-wand-magic-sparkles text-warning me-2"></i>Estudio de Creación y Adaptación (IA)</h5>
+                                <p class="small text-muted mb-3">Sube tu planificación, selecciona el formato de evaluación, y el agente de IA evaluará en tiempo real el Semáforo Cognitivo y la adaptación TEA.</p>
+                                
+                                <form id="form-contenido" enctype="multipart/form-data">
+                                    <div class="mb-3">
+                                        <label class="form-label small fw-bold text-muted">TÍTULO DE LA PLANIFICACIÓN O TEMA</label>
+                                        <input type="text" id="titulo" name="titulo" class="form-control" placeholder="Ej: Unidad I - Algoritmos" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label small fw-bold text-muted">FORMATO DE EVALUACIÓN</label>
+                                        <select id="formato_evaluacion" name="formato_evaluacion" class="form-select">
+                                            <option value="diagnostica">Evaluación Diagnóstica (Saberes previos)</option>
+                                            <option value="prueba_escrita">Prueba Escrita / Examen Teórico</option>
+                                            <option value="formativa">Evaluación Formativa (Proceso continuo)</option>
+                                            <option value="sumativa">Evaluación Sumativa (Calificación final)</option>
+                                            <option value="practica">Práctica Guiada / Laboratorio</option>
+                                            <option value="exposicion">Exposición u Presentación</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label small fw-bold text-muted">CONTENIDO BASE O PLANIFICACIÓN</label>
+                                        <textarea id="descripcion" name="descripcion" class="form-control" rows="4" placeholder="Ingresa el texto original. El algoritmo calculará el semáforo cognitivo..." required></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label small fw-bold text-muted">ADJUNTAR PLANIFICACIÓN (PDF / WORD)</label>
+                                        <input type="file" id="archivo" name="archivo" class="form-control" accept=".pdf,.doc,.docx,.txt">
+                                    </div>
+                                    <button type="submit" class="btn btn-custom-orange w-100 shadow-sm">
+                                        <i class="fa-solid fa-brain me-2"></i> Ejecutar Agente IA y Semáforo Cognitivo
+                                    </button>
+                                </form>
+                                <div id="contenido-alert" class="mt-3"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6">
+                            <div class="card card-custom p-4">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 class="fw-bold m-0 text-dark"><i class="fa-solid fa-layer-group text-primary me-2"></i>Repositorio Adaptado y Semáforo</h5>
+                                    <button class="btn btn-sm btn-outline-secondary" onclick="cargarContenidosSimulados()">
+                                        <i class="fa-solid fa-rotate me-1"></i> Actualizar
+                                    </button>
+                                </div>
+                                <div class="alert alert-warning py-2 small mb-3">
+                                    <i class="fa-solid fa-circle-info me-1"></i> Análisis cognitivo en tiempo real para estudiantes con TEA.
+                                </div>
+                                <div id="lista-contenidos" class="vstack gap-3" style="max-height: 500px; overflow-y: auto;">
+                                    <div class='p-3 border rounded-3 bg-white shadow-sm mb-2'>
+                                        <div class='d-flex justify-content-between align-items-center mb-2'>
+                                            <h6 class='fw-bold mb-0 text-dark'>Unidad I - Algoritmos y Estructuras</h6>
+                                            <span class='badge bg-success px-2 py-1 small text-uppercase'>Semáforo: VERDE</span>
+                                        </div>
+                                        <p class='small text-muted mb-2'><strong>Formato:</strong> PRUEBA ESCRITA</p>
+                                        <p class='small text-secondary mb-2 bg-light p-2 rounded'>Contenido adaptado con éxito. Baja densidad cognitiva.</p>
+                                        <span class='badge bg-light text-secondary border'>Registrado en Base de Datos</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- APARTADO PROFESIONAL: CORRECCIÓN Y ADAPTACIÓN CON BOTÓN DE ENVÍO -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="card card-custom p-4 border-start border-4 border-warning shadow-sm">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <div>
+                                        <h5 class="fw-bold text-dark m-0"><i class="fa-solid fa-file-pen text-warning me-2"></i>Apartado Profesional: Corrección y Adaptación Curricular TEA</h5>
+                                        <p class="text-muted small m-0">Resultado del análisis de la IA con opción directa para enviar al Módulo 4 de Planificación Docente.</p>
+                                    </div>
+                                    <span class="badge bg-primary px-3 py-2" id="badge-estado-adaptacion">Esperando ejecución de IA...</span>
+                                </div>
+                                <hr class="text-muted opacity-25">
+                                <div id="contenedor-adaptacion-profesional" class="p-3 bg-light rounded border">
+                                    <p class="text-muted fst-italic mb-0">
+                                        <i class="fa-solid fa-circle-info me-1"></i> Ingrese su contenido en el formulario superior y haga clic en <strong>"Ejecutar Agente IA y Semáforo Cognitivo"</strong> para visualizar la adaptación ya corregida y enviarla al nuevo Módulo 4.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MÓDULO 4: PLANIFICACIÓN DOCENTE & PDF -->
+                <div class="d-none" id="section-planificacion">
+                    <div class="card card-custom p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <h5 class="fw-bold m-0 text-dark"><i class="fa-solid fa-file-lines text-info me-2"></i>Módulo 4: Repositorio de Planificación Docente & PDF</h5>
+                                <p class="text-muted small m-0">Consulte todas las planificaciones enviadas desde el Módulo 1 y exporte a PDF oficial con un clic.</p>
+                            </div>
+                            <button class="btn btn-sm btn-outline-primary" onclick="renderizarPlanificacionesDocentes()">
+                                <i class="fa-solid fa-rotate me-1"></i> Actualizar Listado
+                            </button>
+                        </div>
+                        <hr class="text-muted opacity-25">
+                        <div id="contenedor-planificaciones-docentes" class="vstack gap-3" style="max-height: 600px; overflow-y: auto;">
+                            <!-- Se llena dinámicamente -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MÓDULO 2: ESTUDIANTE -->
+                <div class="d-none" id="section-estudiante">
+                    <div class="card card-custom p-4">
+                        <h5 class="fw-bold mb-3 text-dark"><i class="fa-solid fa-book-reader text-success me-2"></i>Módulo 2: Mis Actividades y Progreso (Estudiante)</h5>
+                        <p class="small text-muted mb-4">Espacio exclusivo para consultar las actividades adaptadas de tus asignaturas cursadas y verificar tu progreso personal con lenguaje claro.</p>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-4">
+                                <div class="p-3 border rounded bg-light text-center">
+                                    <span class="text-muted small d-block">Actividades Asignadas</span>
+                                    <h4 class="fw-bold text-warning m-0">3</h4>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 border rounded bg-light text-center">
+                                    <span class="text-muted small d-block">Actividades Realizadas</span>
+                                    <h4 class="fw-bold text-success m-0">6</h4>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 border rounded bg-light text-center">
+                                    <span class="text-muted small d-block">Nivel de Acierto Personal</span>
+                                    <h4 class="fw-bold text-primary m-0">94%</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MÓDULO 3: REPORTES -->
+                <div class="d-none" id="section-reportes">
+                    <div class="card card-custom p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <div>
+                                <h5 class="fw-bold m-0 text-dark"><i class="fa-solid fa-chart-line text-primary me-2"></i>Módulo 3: Métricas y Seguimiento Académico</h5>
+                                <p class="text-muted small m-0">Progreso general, nivel de aciertos y total de estudiantes activos</p>
+                            </div>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <div class="p-3 border rounded bg-white shadow-sm text-center">
+                                    <span class="text-muted small d-block">Estudiantes Activos</span>
+                                    <h3 class="fw-bold text-primary m-0">24</h3>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="p-3 border rounded bg-white shadow-sm text-center">
+                                    <span class="text-muted small d-block">Contenidos Adaptados</span>
+                                    <h3 class="fw-bold text-success m-0">12</h3>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="p-3 border rounded bg-white shadow-sm text-center">
+                                    <span class="text-muted small d-block">Actividades Creadas</span>
+                                    <h3 class="fw-bold text-warning m-0">8</h3>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="p-3 border rounded bg-white shadow-sm text-center">
+                                    <span class="text-muted small d-block">Tasa de Acierto General</span>
+                                    <h3 class="fw-bold text-info m-0">94%</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MÓDULO 5: USUARIOS -->
+                <div class="d-none" id="section-usuarios">
+                    <div class="card card-custom p-4">
+                        <h5 class="fw-bold mb-3 text-dark"><i class="fa-solid fa-users text-info me-2"></i>Módulo 5: Directorio de Usuarios Registrados</h5>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr class="small text-muted text-uppercase">
+                                        <th>ID</th>
+                                        <th>Nombre y Apellido</th>
+                                        <th>Correo Institucional</th>
+                                        <th>Rol</th>
+                                        <th>Estado</th>
+                                        <th>Registro</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span class='badge bg-light text-dark border'>#1</span></td>
+                                        <td><strong class='text-dark'>Dr. Administrador Sistema</strong></td>
+                                        <td><span class='text-muted'>admin@unerg.edu.ve</span></td>
+                                        <td><span class='badge bg-primary bg-opacity-10 text-primary px-2 py-1 text-uppercase'>Administrador</span></td>
+                                        <td><span class='badge bg-success bg-opacity-10 text-success px-2 py-1'>activo</span></td>
+                                        <td><small class='text-muted'>2026-01-15</small></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class='badge bg-light text-dark border'>#2</span></td>
+                                        <td><strong class='text-dark'>Ing. Jhoana Rodríguez</strong></td>
+                                        <td><span class='text-muted'>docente@unerg.edu.ve</span></td>
+                                        <td><span class='badge bg-primary bg-opacity-10 text-primary px-2 py-1 text-uppercase'>Docente</span></td>
+                                        <td><span class='badge bg-success bg-opacity-10 text-success px-2 py-1'>activo</span></td>
+                                        <td><small class='text-muted'>2026-02-10</small></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MÓDULO 6: AYUDA -->
+                <div class="d-none" id="section-ayuda">
+                    <div class="card card-custom p-4">
+                        <h5 class="fw-bold mb-3 text-dark"><i class="fa-solid fa-book-bookmark text-warning me-2"></i>Módulo 6: Guía y Centro de Ayuda</h5>
+                        <p class="small text-muted">Plataforma adaptada bajo normativas WCAG 2.2 para el apoyo cognitivo en estudiantes universitarios.</p>
+                    </div>
+                </div>
+
+                <!-- MÓDULO 7: ACCESIBILIDAD -->
+                <div class="d-none" id="section-accesibilidad">
+                    <div class="card card-custom p-4">
+                        <h5 class="fw-bold mb-3 text-dark"><i class="fa-solid fa-universal-access text-primary me-2"></i>Módulo 7: Accesibilidad</h5>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="p-3 border rounded">
+                                    <h6>Tamaño de Texto</h6>
+                                    <button class="btn btn-outline-secondary btn-sm me-2" onclick="cambiarTamanoTexto('normal')">Estándar</button>
+                                    <button class="btn btn-outline-primary btn-sm" onclick="cambiarTamanoTexto('grande')">Grande (Accesible)</button>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-3 border rounded">
+                                    <h6>Contraste de Pantalla</h6>
+                                    <button class="btn btn-outline-dark btn-sm me-2" onclick="cambiarModoContraste('normal')">Fondo Estándar</button>
+                                    <button class="btn btn-dark btn-sm" onclick="cambiarModoContraste('alto')">Alto Contraste</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        var token = localStorage.getItem("token") || "";
+        var usuario = JSON.parse(localStorage.getItem("usuario") || "null");
+
+        // Memoria para el Módulo 4 (Planificación Docente)
+        var planificacionesDocentes = JSON.parse(localStorage.getItem("planificaciones_docentes") || JSON.stringify([
+            {
+                id: 1,
+                titulo: "Unidad I - Algoritmos y Estructuras",
+                formato: "PRÁCTICA GUIADA",
+                semaforo: "VERDE",
+                claseBadge: "bg-success",
+                textoCorregido: "Contenido adaptado con éxito. Baja densidad cognitiva y oraciones directas sin ambigüedades.",
+                seriePasos: "Paso 1: Verificar las instrucciones generales. Paso 2: Desarrollar la práctica guiada."
+            }
+        ]));
+
+        var ultimaAdaptacionGenerada = null;
+
+        document.addEventListener("DOMContentLoaded", function() {
+            verificarSesion();
+            renderizarPlanificacionesDocentes();
+
+            // LOGIN SIMULADO
+            var formLogin = document.getElementById("form-login");
+            if (formLogin) {
+                formLogin.addEventListener("submit", function(e) {
+                    e.preventDefault();
+                    var email = document.getElementById("login-email").value.trim();
+                    var alertContainer = document.getElementById("login-alert");
+
+                    alertContainer.innerHTML = "<div class='alert alert-info py-2 small'><i class='fa-solid fa-spinner fa-spin me-2'></i>Accediendo al entorno...</div>";
+
+                    setTimeout(function() {
+                        token = "token-simulado-presentacion-2026";
+                        var nombreMostrar = email ? email.split("@")[0].toUpperCase() : "DOCENTE INVESTIGADOR";
+                        usuario = {
+                            id: 1,
+                            nombre: nombreMostrar,
+                            correo: email || "docente@unerg.edu.ve",
+                            rol: "docente"
+                        };
+
+                        localStorage.setItem("token", token);
+                        localStorage.setItem("usuario", JSON.stringify(usuario));
+
+                        alertContainer.innerHTML = "<div class='alert alert-success py-2 small'><i class='fa-solid fa-circle-check me-2'></i>¡Acceso concedido con éxito!</div>";
+
+                        setTimeout(function() {
+                            alertContainer.innerHTML = "";
+                            verificarSesion();
+                        }, 400);
+                    }, 400);
+                });
+            }
+
+            // REGISTRO
+            var formRegister = document.getElementById("form-register");
+            if (formRegister) {
+                formRegister.addEventListener("submit", function(e) {
+                    e.preventDefault();
+                    var alertContainer = document.getElementById("register-alert");
+                    alertContainer.innerHTML = "<div class='alert alert-success py-2 small'><i class='fa-solid fa-circle-check me-2'></i>¡Éxito! Cuenta registrada correctamente.</div>";
+                    setTimeout(function() {
+                        alertContainer.innerHTML = "";
+                        mostrarSeccion("login");
+                        document.getElementById("form-register").reset();
+                    }, 1200);
+                });
+            }
+
+            // MÓDULO 1: ADAPTACIÓN Y CORRECCIÓN CON ALERTA ACTIVA
+            var formContenido = document.getElementById("form-contenido");
+            if (formContenido) {
+                formContenido.addEventListener("submit", function(e) {
+                    e.preventDefault();
+                    var alertContainer = document.getElementById("contenido-alert");
+                    alertContainer.innerHTML = "<div class='alert alert-info py-2 small'><i class='fa-solid fa-spinner fa-spin me-2'></i>El Agente IA está procesando el texto y calculando el Semáforo Cognitivo...</div>";
+
+                    var titulo = document.getElementById("titulo").value;
+                    var formato = document.getElementById("formato_evaluacion").value;
+                    var descripcion = document.getElementById("descripcion").value;
+
+                    var colorSemaforo = "VERDE";
+                    var claseBadge = "bg-success";
+                    var textoCorregido = "";
+                    var serieDePasos = "";
+
+                    if (descripcion.length > 130) {
+                        colorSemaforo = "AMARILLO (Requiere simplificación)";
+                        claseBadge = "bg-warning text-dark";
+                        textoCorregido = "Texto refactorizado por IA: Se eliminaron ambigüedades técnicas complejas, estructurando los conceptos en oraciones directas, breves y con legibilidad óptima para estudiantes con Trastorno del Espectro Autista (TEA).";
+                        serieDePasos = 
+                            "<div class='vstack gap-2'>" +
+                                "<div class='p-2 bg-white border rounded shadow-sm'><strong class='text-primary'>Paso 1:</strong> Leer detenidamente el enunciado principal del tema.</div>" +
+                                "<div class='p-2 bg-white border rounded shadow-sm'><strong class='text-primary'>Paso 2:</strong> Desglosar la estructura o fórmula en partes pequeñas.</div>" +
+                                "<div class='p-2 bg-white border rounded shadow-sm'><strong class='text-primary'>Paso 3:</strong> Aplicar el ejercicio práctico paso a paso.</div>" +
+                            "</div>";
+                    } else {
+                        colorSemaforo = "VERDE (Óptimo)";
+                        claseBadge = "bg-success";
+                        textoCorregido = "El texto base cuenta con una redacción clara, concisa y directa. Aprobado para ejecución directa bajo normativas cognitivas.";
+                        serieDePasos = 
+                            "<div class='vstack gap-2'>" +
+                                "<div class='p-2 bg-white border rounded shadow-sm'><strong class='text-success'>Paso 1:</strong> Verificar las instrucciones generales.</div>" +
+                                "<div class='p-2 bg-white border rounded shadow-sm'><strong class='text-success'>Paso 2:</strong> Desarrollar la práctica según los parámetros.</div>" +
+                            "</div>";
+                    }
+
+                    setTimeout(function() {
+                        // AQUÍ MOSTRAMOS LA ALERTA DE ÉXITO EN EL SEMÁFORO
+                        alertContainer.innerHTML = "<div class='alert alert-success py-2 small'><i class='fa-solid fa-circle-check me-2'></i>¡Análisis completado! Semáforo detectado: <strong>" + colorSemaforo + "</strong></div>";
+                        
+                        ultimaAdaptacionGenerada = {
+                            id: Date.now(),
+                            titulo: titulo,
+                            formato: formato.toUpperCase(),
+                            semaforo: colorSemaforo,
+                            claseBadge: claseBadge,
+                            textoCorregido: textoCorregido,
+                            seriePasos: serieDePasos
+                        };
+
+                        // Actualizar Apartado Profesional abajo con la corrección y el botón de envío
+                        var badgeEstado = document.getElementById("badge-estado-adaptacion");
+                        var contenedorPro = document.getElementById("contenedor-adaptacion-profesional");
+
+                        if (badgeEstado) {
+                            badgeEstado.className = "badge " + (colorSemaforo.includes("AMARILLO") ? "bg-warning text-dark" : "bg-success");
+                            badgeEstado.innerText = "Semáforo: " + colorSemaforo;
+                        }
+
+                        if (contenedorPro) {
+                            contenedorPro.innerHTML = 
+                                "<div class='vstack gap-3'>" +
+                                    "<div>" +
+                                        "<span class='badge bg-secondary mb-1'>TEMA EVALUADO</span>" +
+                                        "<h5 class='fw-bold text-dark m-0'>" + titulo + " <span class='text-muted small'>(Formato: " + formato.toUpperCase() + ")</span></h5>" +
+                                    "</div>" +
+                                    "<div class='p-3 bg-white border rounded shadow-sm'>" +
+                                        "<h6 class='fw-bold text-primary mb-2'><i class='fa-solid fa-pen-nib me-2'></i>Redacción y Corrección Académica (IA):</h6>" +
+                                        "<p class='small text-secondary mb-0 bg-light p-2 rounded'>" + textoCorregido + "</p>" +
+                                    "</div>" +
+                                    "<div class='p-3 bg-white border rounded shadow-sm'>" +
+                                        "<h6 class='fw-bold text-success mb-2'><i class='fa-solid fa-list-check me-2'></i>Serie de Pasos Adaptados para el Estudiante (TEA):</h6>" +
+                                        serieDePasos +
+                                    "</div>" +
+                                    "<div class='d-flex align-items-center justify-content-between pt-2 border-top'>" +
+                                        "<span class='badge bg-success bg-opacity-10 text-success border border-success px-2 py-1 small'><i class='fa-solid fa-check me-1'></i> WCAG 2.2 Verificado</span>" +
+                                        "<button class='btn btn-success btn-sm px-4 shadow-sm' onclick='enviarAPlanificacionDocente()'>" +
+                                            "<i class='fa-solid fa-paper-plane me-1'></i> Enviar a Planificación Docente (Módulo 4)" +
+                                        "</button>" +
+                                    "</div>" +
+                                "</div>";
+                        }
+
+                        formContenido.reset();
+                    }, 800);
+                });
+            }
+        });
+
+        // ENVIAR AL MÓDULO 4
+        function enviarAPlanificacionDocente() {
+            if (!ultimaAdaptacionGenerada) {
+                alert("No hay ninguna adaptación generada para enviar.");
+                return;
+            }
+
+            var existe = planificacionesDocentes.some(function(item) { return item.titulo === ultimaAdaptacionGenerada.titulo; });
+            if (!existe) {
+                planificacionesDocentes.unshift(ultimaAdaptacionGenerada);
+                localStorage.setItem("planificaciones_docentes", JSON.stringify(planificacionesDocentes));
+                renderizarPlanificacionesDocentes();
+            }
+
+            alert("¡Éxito! La planificación ha sido enviada al Módulo 4 de Planificación Docente. Redirigiendo...");
+            mostrarSeccion("planificacion");
+        }
+
+        // RENDERIZAR MÓDULO 4 (PLANIFICACIÓN DOCENTE & PDF)
+        function renderizarPlanificacionesDocentes() {
+            var contenedor = document.getElementById("contenedor-planificaciones-docentes");
+            if (!contenedor) return;
+
+            if (planificacionesDocentes.length === 0) {
+                contenedor.innerHTML = "<div class='text-center p-4 text-muted'>No hay planificaciones docentes registradas aún.</div>";
+                return;
+            }
+
+            var html = "";
+            for (var i = 0; i < planificacionesDocentes.length; i++) {
+                var p = planificacionesDocentes[i];
+                html += 
+                    "<div class='p-4 border rounded-3 bg-white shadow-sm'>" +
+                        "<div class='d-flex justify-content-between align-items-center mb-2'>" +
+                            "<h6 class='fw-bold text-dark m-0'><i class='fa-solid fa-book-open text-warning me-2'></i>" + p.titulo + "</h6>" +
+                            "<span class='badge " + p.claseBadge + " px-2 py-1 text-uppercase'>Semáforo: " + p.semaforo + "</span>" +
+                        "</div>" +
+                        "<p class='small text-muted mb-1'><strong>Asignatura / Formato:</strong> Ingeniería de Sistemas • " + p.formato + "</p>" +
+                        "<p class='small bg-light p-2 rounded mb-2 text-secondary'><strong>Contenido Corregido:</strong> " + p.textoCorregido + "</p>" +
+                        "<div class='p-2 bg-white border rounded mb-3'>" +
+                            "<strong class='small text-success d-block mb-1'><i class='fa-solid fa-list-check me-1'></i> Serie de Pasos Pedagógicos:</strong>" +
+                            p.seriePasos +
+                        "</div>" +
+                        "<div class='d-flex justify-content-between align-items-center'>" +
+                            "<span class='badge bg-light text-secondary border'>UNERG • FUPAGUA 2026</span>" +
+                            "<button class='btn btn-outline-danger btn-sm px-3 shadow-sm' onclick='exportarPDFSimulado(\"" + p.titulo + "\")'>" +
+                                "<i class='fa-solid fa-file-pdf me-1'></i> Descargar Planificación en PDF" +
+                            "</button>" +
+                        "</div>" +
+                    "</div>";
+            }
+            contenedor.innerHTML = html;
+        }
+
+        function exportarPDFSimulado(tituloTema) {
+            alert("Generando documento oficial PDF para: '" + tituloTema + "'...\n\nReporte institucional UNERG con semáforo cognitivo, redacción corregida y estrategia en serie de pasos listo para imprimir o guardar.");
+        }
+
+        function verificarSesion() {
+            if (token && usuario) {
+                var secLogin = document.getElementById("section-login");
+                var secReg = document.getElementById("section-register");
+                var secDash = document.getElementById("section-dashboard");
+                var menuPlegable = document.getElementById("menu-plegable");
+                var btnLogout = document.getElementById("btn-logout");
+
+                if (secLogin) secLogin.classList.add("d-none");
+                if (secReg) secReg.classList.add("d-none");
+                if (secDash) secDash.classList.remove("d-none");
+                if (menuPlegable) menuPlegable.classList.remove("d-none");
+                if (btnLogout) btnLogout.classList.remove("d-none");
+                
+                var sidebarTitulo = document.getElementById("sidebar-titulo");
+                var sidebarDesc = document.getElementById("sidebar-desc");
+                var headerTitulo = document.getElementById("header-titulo-vista");
+                var userInfo = document.getElementById("user-session-info");
+                var rolBadge = document.getElementById("panel-rol-badge");
+
+                var rolTexto = usuario.rol ? usuario.rol.toUpperCase() : "DOCENTE";
+
+                if (sidebarTitulo) sidebarTitulo.innerText = usuario.nombre;
+                if (sidebarDesc) sidebarDesc.innerText = "Rol: " + rolTexto;
+                if (headerTitulo) headerTitulo.innerText = "Panel de " + rolTexto;
+                if (rolBadge) rolBadge.innerText = "PANEL " + rolTexto;
+                
+                if (userInfo) {
+                    userInfo.innerHTML = "<i class='fa-solid fa-user-check me-1 text-success'></i> " + usuario.nombre;
+                    userInfo.className = "badge bg-success bg-opacity-10 text-success border border-success p-2 fw-medium";
+                }
+            } else {
+                mostrarSeccion("login");
+                var menuPlegable = document.getElementById("menu-plegable");
+                var btnLogout = document.getElementById("btn-logout");
+
+                if (menuPlegable) menuPlegable.classList.add("d-none");
+                if (btnLogout) btnLogout.classList.add("d-none");
+                
+                var sidebarTitulo = document.getElementById("sidebar-titulo");
+                var sidebarDesc = document.getElementById("sidebar-desc");
+                var userInfo = document.getElementById("user-session-info");
+
+                if (sidebarTitulo) sidebarTitulo.innerText = "Portal Institucional";
+                if (sidebarDesc) sidebarDesc.innerText = "Entorno accesible de baja densidad cognitiva.";
+                
+                if (userInfo) {
+                    userInfo.innerText = "Sesión no iniciada";
+                    userInfo.className = "badge bg-light text-secondary border p-2 fw-medium";
+                }
+            }
+        }
+
+        function mostrarSeccion(seccion) {
+            var secciones = [
+                "section-login",
+                "section-register",
+                "section-dashboard",
+                "section-planificacion",
+                "section-estudiante",
+                "section-usuarios",
+                "section-ayuda",
+                "section-accesibilidad",
+                "section-reportes"
+            ];
+            
+            for (var i = 0; i < secciones.length; i++) {
+                var el = document.getElementById(secciones[i]);
+                if (el) el.classList.add("d-none");
+            }
+
+            var links = document.querySelectorAll(".nav-link-custom");
+            for (var j = 0; j < links.length; j++) {
+                links[j].classList.remove("active");
+            }
+
+            var headerTitulo = document.getElementById("header-titulo-vista");
+
+            if (seccion === "login") {
+                document.getElementById("section-login").classList.remove("d-none");
+                if (headerTitulo) headerTitulo.innerText = "Portal de Ingreso Institucional";
+            } else if (seccion === "register") {
+                document.getElementById("section-register").classList.remove("d-none");
+                if (headerTitulo) headerTitulo.innerText = "Registro de Nuevo Usuario";
+            } else if (seccion === "dashboard") {
+                document.getElementById("section-dashboard").classList.remove("d-none");
+                document.getElementById("link-dashboard").classList.add("active");
+                if (headerTitulo) headerTitulo.innerText = "Módulo 1: Estudio de creación y adaptación IA";
+            } else if (seccion === "planificacion") {
+                document.getElementById("section-planificacion").classList.remove("d-none");
+                document.getElementById("link-planificacion").classList.add("active");
+                renderizarPlanificacionesDocentes();
+                if (headerTitulo) headerTitulo.innerText = "Módulo 4: Planificación Docente & PDF";
+            } else if (seccion === "estudiante") {
+                document.getElementById("section-estudiante").classList.remove("d-none");
+                document.getElementById("link-estudiante").classList.add("active");
+                if (headerTitulo) headerTitulo.innerText = "Módulo 2: Mis actividades y progreso";
+            } else if (seccion === "reportes") {
+                document.getElementById("section-reportes").classList.remove("d-none");
+                document.getElementById("link-reportes").classList.add("active");
+                if (headerJuridico = headerTitulo) headerTitulo.innerText = "Módulo 3: Métricas y Seguimiento Académico";
+            } else if (seccion === "usuarios") {
+                document.getElementById("section-usuarios").classList.remove("d-none");
+                document.getElementById("link-usuarios").classList.add("active");
+                if (headerTitulo) headerTitulo.innerText = "Módulo 5: Directorio de Usuarios";
+            } else if (seccion === "ayuda") {
+                document.getElementById("section-ayuda").classList.remove("d-none");
+                document.getElementById("link-ayuda").classList.add("active");
+                if (headerTitulo) headerTitulo.innerText = "Módulo 6: Guía y Centro de Ayuda";
+            } else if (seccion === "accesibilidad") {
+                document.getElementById("section-accesibilidad").classList.remove("d-none");
+                document.getElementById("link-accesibilidad").classList.add("active");
+                if (headerTitulo) headerTitulo.innerText = "Módulo 7: Accesibilidad WCAG";
+            }
+        }
+
+        function cargarContenidosSimulados() {}
+
+        function cambiarTamanoTexto(tamano) {
+            document.body.style.fontSize = (tamano === "grande") ? "1.15rem" : "1rem";
+        }
+
+        function cambiarModoContraste(modo) {
+            document.body.style.filter = (modo === "alto") ? "contrast(125%)" : "none";
+        }
+
+        function cerrarSesion() {
+            localStorage.clear();
+            token = "";
+            usuario = null;
+            verificarSesion();
+        }
+    </script>
+</body>
+</html>

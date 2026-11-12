@@ -1,0 +1,167 @@
+/* ==========================================================================
+   EDUMÁTICO TEA - Estilos Institucionales con Fondo Animado y Marca de Agua
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --primary-navy: #0740c4;
+    --accent-orange: #F97316;
+    --bg-light: #F8FAFC;
+    --card-bg: rgba(255, 255, 255, 0.92);
+    --text-main: #334155;
+    --text-muted: #315586;
+    --border-color: #E2E8F0;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--primary-navy);
+    color: var(--text-main);
+    overflow-x: hidden;
+    margin: 0;
+}
+
+/* Fondo animado dinámico con gradientes en movimiento */
+.animated-bg {
+    position: relative;
+    background: linear-gradient(-45deg, #0F172A, #1E293B, #090D16, #172554);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    min-height: 100vh;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Marca de agua flotante en el fondo (Cerebro IA clarito, clarito) */
+.animated-bg::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/svgs/solid/brain.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 45vw;
+    opacity: 0.035; /* Muy sutil, clarito clarito */
+    pointer-events: none;
+    z-index: 0;
+    animation: pulseBrain 8s ease-in-out infinite;
+}
+
+@keyframes pulseBrain {
+    0%, 100% { transform: scale(1); opacity: 0.03; }
+    50% { transform: scale(1.05); opacity: 0.05; }
+}
+
+/* Asegurar que el contenido esté sobre el fondo animado */
+.container-fluid, .row {
+    position: relative;
+    z-index: 1;
+}
+
+/* Barra lateral elegante */
+.sidebar-left {
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    min-height: 100vh;
+    color: #FFFFFF;
+    padding: 2.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.nav-link-custom {
+    color: #94A3B8;
+    text-decoration: none;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+    margin-bottom: 0.35rem;
+}
+
+.nav-link-custom:hover, .nav-link-custom.active {
+    color: #FFFFFF;
+    background-color: rgba(249, 115, 22, 0.15);
+    border-left: 3px solid var(--accent-orange);
+    transform: translateX(4px);
+}
+
+.menu-category {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #64748B;
+    margin: 1.5rem 0 0.5rem 0.5rem;
+    font-weight: 700;
+}
+
+/* Área de contenido principal */
+.main-content {
+    padding: 2.5rem;
+    min-height: 100vh;
+    background: rgba(248, 250, 252, 0.95);
+    backdrop-filter: blur(10px);
+}
+
+/* Tarjetas modernas y estilizadas */
+.card-custom {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+}
+
+/* Título EDUMÁTICO destacado y brillante */
+.edumatico-brand-title {
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    background: linear-gradient(135deg, #0F172A 0%, #3B82F6 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Botones personalizados */
+.btn-custom-orange {
+    background-color: var(--accent-orange);
+    color: #FFFFFF;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    transition: all 0.2s;
+}
+
+.btn-custom-orange:hover {
+    background-color: #EA580C;
+    color: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+}
+
+.form-control, .form-select {
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-color);
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+}
+
+.form-control:focus {
+    border-color: var(--accent-orange);
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+}
+
+/* Clases de semáforo cognitivo */
+.badge-semaforo-verde { background-color: #22C55E; color: white; }
+.badge-semaforo-amarillo { background-color: #EAB308; color: white; }
+.badge-semaforo-rojo { background-color: #EF4444; color: white; }
